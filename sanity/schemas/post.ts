@@ -6,6 +6,7 @@ export default {
     {
       name: 'title',
       title: 'Title',
+      description: 'Keep title short!',
       type: 'string',
     },
     {
@@ -16,6 +17,11 @@ export default {
         source: 'title',
         maxLength: 96,
       },
+    },
+    {
+      name: 'description',
+      title: 'Description',
+      type: 'string',
     },
     {
       name: 'author',

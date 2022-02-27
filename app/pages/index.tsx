@@ -10,7 +10,7 @@ import { GET_POSTS } from '$lib/query'
 export default function Home({ posts }: Props) {
   return (
     <>
-      <Header />
+      <Header bg="yellow" />
       <Hero />
       <Gallery posts={posts} />
     </>

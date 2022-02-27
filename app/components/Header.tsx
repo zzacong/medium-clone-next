@@ -2,10 +2,16 @@ import Link from 'next/link'
 import Image from 'next/image'
 
 import medium_logo from '$public/medium_logo.png'
+import clsx from 'clsx'
 
-export default function Header() {
+export default function Header({ bg = 'white' }: Props) {
   return (
-    <header className="bg-yellow-400 focus-within:shadow">
+    <header
+      className={clsx(
+        'bg-white focus-within:shadow',
+        bg === 'yellow' && 'bg-yellow-400'
+      )}
+    >
       <div className="wrapper flex h-[75px] items-center justify-between space-x-4 py-2">
         <Link href="/" passHref>
           <a className="flex w-44">
@@ -37,3 +43,5 @@ export default function Header() {
     </header>
   )
 }
+
+type Props = { bg?: 'white' | 'yellow' }

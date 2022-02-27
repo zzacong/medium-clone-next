@@ -3,6 +3,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 
 import { urlFor } from '$lib/utils/sanity'
+import Avatar from '$components/Avatar'
 
 export default function Gallery({ posts }: Props) {
   return (
@@ -27,15 +28,7 @@ export default function Gallery({ posts }: Props) {
                     {p.description} by {p.author.name}
                   </p>
                 </div>
-                <span className="block">
-                  <Image
-                    src={urlFor(p.author.image).url()}
-                    alt={p.author.name}
-                    width={48}
-                    height={48}
-                    className="rounded-full"
-                  />
-                </span>
+                <Avatar user={p.author} size={48} isLink={false} />
               </div>
             </a>
           </Link>

@@ -1,4 +1,5 @@
 import type { SanityImageObject } from '@sanity/image-url/lib/types/types'
+import type { PortableTextBlock } from '@portabletext/types'
 
 export interface Post {
   _id: string
@@ -11,7 +12,7 @@ export interface Post {
     image: SanityImageObject
   }
   mainImage: SanityImageObject
-  body: Record<string, unknown>[]
+  body: PortableTextBlock
 }
 
 export interface Author {

@@ -8,3 +8,9 @@
     @apply cursor-pointer focus:outline-offset-2;
   }
 }
+
+@layer components {
+  .wrapper {
+    @apply mx-auto max-w-7xl px-4;
+  }
+}

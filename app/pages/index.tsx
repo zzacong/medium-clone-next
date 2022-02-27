@@ -1,4 +1,4 @@
-import type { GetServerSideProps } from 'next'
+import type { GetStaticProps } from 'next'
 import type { Post } from '$lib/types'
 
 import Header from '$components/Header'
@@ -8,20 +8,16 @@ import { sanityClient } from '$lib/config/sanity'
 import { GET_POSTS } from '$lib/query'
 
 export default function Home({ posts }: Props) {
-  console.log(posts)
   return (
     <>
       <Header />
-
-      <div className="mx-auto max-w-7xl">
-        <Hero />
-        <Gallery posts={posts} />
-      </div>
+      <Hero />
+      <Gallery posts={posts} />
     </>
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   const posts = await sanityClient.fetch(GET_POSTS)
   return { props: { posts } }
 }

@@ -1,6 +1,6 @@
 import { Author } from '$lib/types'
 import { urlFor } from '$lib/utils/sanity'
-import Image from 'next/Image'
+import Image from 'next/image'
 import Link from 'next/link'
 
 export default function Avatar({ user, size, isLink = true }: Props) {

@@ -1,7 +1,9 @@
+import { useCallback } from 'react'
 import type { GetStaticPaths, GetStaticProps } from 'next'
-import type { Post } from '$lib/types'
+import type { CommentFormValues, Post } from '$lib/types'
 import Image from 'next/image'
 import { PortableText, PortableTextReactComponents } from '@portabletext/react'
+import { useForm } from 'react-hook-form'
 
 import Header from '$components/Header'
 import { sanityClient } from '$lib/config/sanity'
@@ -9,8 +11,22 @@ import { GET_POST, GET_POSTS_PATHS } from '$lib/query'
 import { urlFor } from '$lib/utils/sanity'
 import { format, parseISO } from 'date-fns'
 import Avatar from '$components/Avatar'
+import clsx from 'clsx'
+import { createPost } from '$lib/utils'
 
 export default function PostPage({ post: p }: Props) {
+  const { handleSubmit, register, formState } = useForm<CommentFormValues>()
+  const { errors, isSubmitSuccessful } = formState
+
+  const onComment = useCallback(async (data: CommentFormValues) => {
+    console.table(data)
+    try {
+      const res = await createPost(data)
+    } catch (error) {
+      console.error(error)
+    }
+  }, [])
+
   return (
     <>
       <Header bg="white" />
@@ -23,29 +39,109 @@ export default function PostPage({ post: p }: Props) {
         />
       </div>
 
-      <main className="mx-auto max-w-3xl px-4">
-        <h1 className="mt-10 mb-3 text-3xl">{p.title}</h1>
-        <h2 className="mb-2 text-xl font-light text-gray-600">
-          {p.description}
-        </h2>
+      <div className="mx-auto max-w-3xl px-4">
+        <main>
+          <h1 className="mt-10 mb-3 text-3xl">{p.title}</h1>
+          <h2 className="mb-2 text-xl font-light text-gray-600">
+            {p.description}
+          </h2>
 
-        <div className="flex items-center space-x-2">
-          <Avatar user={p.author} size={40} />
-          <p className="text-sm font-extralight">
-            Blog post by{' '}
-            <span className="font-medium">
-              <a href="#">{p.author.name}</a>
-            </span>{' '}
-            <span className="text-gray-600">
-              - Published at {format(parseISO(p._createdAt), 'dd/MM/yyyy')}
-            </span>
-          </p>
-        </div>
+          <div className="flex items-center space-x-2">
+            <Avatar user={p.author} size={40} />
+            <p className="text-sm font-extralight">
+              Blog post by{' '}
+              <span className="font-medium">
+                <a href="#">{p.author.name}</a>
+              </span>{' '}
+              <span className="text-gray-600">
+                - Published at {format(parseISO(p._createdAt), 'dd/MM/yyyy')}
+              </span>
+            </p>
+          </div>
 
-        <article className="prose mt-8 pb-10 lg:prose-xl">
-          <PortableText value={p.body} components={portableTextComponents} />
-        </article>
-      </main>
+          <article className="prose mt-8 lg:prose-xl">
+            <PortableText value={p.body} components={portableTextComponents} />
+          </article>
+        </main>
+
+        <hr className="mx-auto my-8 max-w-lg border border-yellow-400" />
+
+        {isSubmitSuccessful ? (
+          <div className="mx-auto mb-10 max-w-3xl bg-yellow-500 p-10 text-white">
+            <h3 className="text-3xl font-bold">
+              Thank you for leaving your comment!
+            </h3>
+            <p className="">Once it has been approved, it will appear below.</p>
+          </div>
+        ) : (
+          <form
+            onSubmit={handleSubmit(onComment)}
+            className="mx-auto mb-10 flex max-w-3xl flex-col pt-4"
+          >
+            <h3 className="mb-2 text-base text-yellow-600">
+              Enjoyed this article?
+            </h3>
+            <h4 className="text-3xl font-bold text-gray-800">
+              Leave a comment below!
+            </h4>
+            <hr className="my-4" />
+
+            <label className="hidden">
+              <input type="hidden" value={p._id} {...register('_id')} />
+            </label>
+
+            <label className="mb-4 block">
+              <span className="text-sm text-gray-700">Name</span>
+              <input
+                type="text"
+                placeholder=""
+                className={clsx('form-input', errors.name && 'border-red-500')}
+                {...register('name', { required: true })}
+              />
+            </label>
+
+            <label className="mb-4 block">
+              <span className="text-sm text-gray-700">Email</span>
+              <input
+                type="email"
+                placeholder=""
+                className={clsx('form-input', errors.email && 'border-red-500')}
+                {...register('email', { required: true })}
+              />
+            </label>
+
+            <label className="mb-4 block">
+              <span className="text-sm text-gray-700">Comment</span>
+              <textarea
+                rows={8}
+                placeholder=""
+                className={clsx(
+                  'form-input',
+                  errors.comment && 'border-red-500'
+                )}
+                {...register('comment', { required: true })}
+              />
+            </label>
+
+            {/* Errors */}
+            <div className="mb-4">
+              {errors.name && (
+                <p className="text-red-500">* The name field is required.</p>
+              )}
+              {errors.email && (
+                <p className="text-red-500">* The email field is required.</p>
+              )}
+              {errors.comment && (
+                <p className="text-red-500">* The comment field is required.</p>
+              )}
+            </div>
+
+            <button className="rounded bg-yellow-400 px-4 py-2 shadow transition hover:bg-opacity-90 focus:bg-opacity-90">
+              Submit
+            </button>
+          </form>
+        )}
+      </div>
     </>
   )
 }

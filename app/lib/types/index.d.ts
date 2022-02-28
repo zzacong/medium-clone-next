@@ -27,3 +27,10 @@ export interface Author {
 export type Slug = {
   current: string
 }
+
+export type CommentFormValues = {
+  _id: string
+  name: string
+  email: string
+  comment: string
+}

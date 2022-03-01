@@ -39,7 +39,7 @@ export default function PostPage({ post: p }: Props) {
         />
       </div>
 
-      <div className="mx-auto max-w-3xl px-4">
+      <div className="mx-auto max-w-4xl px-4">
         <main>
           <h1 className="mt-10 mb-3 text-3xl">{p.title}</h1>
           <h2 className="mb-2 text-xl font-light text-gray-600">
@@ -59,7 +59,7 @@ export default function PostPage({ post: p }: Props) {
             </p>
           </div>
 
-          <article className="prose mt-8 lg:prose-xl">
+          <article className="prose mx-auto mt-8 max-w-3xl lg:prose-xl">
             <PortableText value={p.body} components={portableTextComponents} />
           </article>
         </main>
@@ -67,7 +67,7 @@ export default function PostPage({ post: p }: Props) {
         <hr className="mx-auto my-8 max-w-lg border border-yellow-400" />
 
         {isSubmitSuccessful ? (
-          <div className="mx-auto mb-10 max-w-3xl bg-yellow-500 p-10 text-white">
+          <div className="mb-10 bg-yellow-500 p-10 text-white">
             <h3 className="text-3xl font-bold">
               Thank you for leaving your comment!
             </h3>
@@ -76,7 +76,7 @@ export default function PostPage({ post: p }: Props) {
         ) : (
           <form
             onSubmit={handleSubmit(onComment)}
-            className="mx-auto mb-10 flex max-w-3xl flex-col pt-4"
+            className="mb-10 flex flex-col pt-4"
           >
             <h3 className="mb-2 text-base text-yellow-600">
               Enjoyed this article?
@@ -141,27 +141,42 @@ export default function PostPage({ post: p }: Props) {
             </button>
           </form>
         )}
+
+        {p.comments && (
+          <section className="my-10 flex flex-col rounded p-4 px-8 shadow">
+            <h3 className="text-4xl">Comments</h3>
+            <hr className="mx-auto my-2 w-full max-w-lg" />
+            {p.comments.map(c => (
+              <div key={c._id} className="mb-2">
+                <span className="font-medium italic text-yellow-500">
+                  {c.name}:
+                </span>
+                <p className="">{c.comment}</p>
+              </div>
+            ))}
+          </section>
+        )}
       </div>
     </>
   )
 }
 
+// pre build the first 10 blog
 export const getStaticPaths: GetStaticPaths = async () => {
   const posts = await sanityClient.fetch<Post[]>(GET_POSTS_PATHS)
 
   return {
-    paths: posts.map(p => ({ params: { slug: p.slug.current } })),
+    paths: posts.map(p => ({ params: { slug: p.slug } })),
     fallback: 'blocking',
   }
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  console.log(params)
   const post = await sanityClient.fetch<Post>(GET_POST, { slug: params?.slug })
   if (!post) return { notFound: true }
   return {
     props: {
-      post: post,
+      post,
     },
     revalidate: 60,
   }

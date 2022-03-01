@@ -2,7 +2,7 @@ export const GET_POSTS = `
 *[_type == "post"] {
   _id,
   title,
-  slug,
+  "slug": slug.current,
   description,
   mainImage,
   author -> {
@@ -14,8 +14,8 @@ export const GET_POSTS = `
 `
 
 export const GET_POSTS_PATHS = `
-*[_type == "post"] {
-  slug {current}
+*[_type == "post"][0...10] {
+  "slug": slug.current,
 }
 `
 
@@ -26,16 +26,22 @@ export const GET_POST = `
   title,
   description,
   mainImage,
-  slug,
+  "slug": slug.current,
   body,
   author -> {
     name,
-    image
+    image,
   },
   'comments': *[
     _type == "comment" &&
     post._ref == ^._id &&
     approved == true
-  ]
+  ] {
+    _createdAt,
+    _id,
+    comment,
+    name,
+    email,
+  }
 }
 `

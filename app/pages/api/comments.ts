@@ -30,7 +30,6 @@ export default async function handler(
       res.status(500).json({ message: 'Failed to create comment', error })
     }
 
-    console.log('Comment submitted')
     return res.status(201).json({ message: 'Comment submitted' })
   }
 

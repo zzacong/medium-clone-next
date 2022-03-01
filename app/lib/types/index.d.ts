@@ -13,6 +13,7 @@ export interface Post {
   }
   mainImage: SanityImageObject
   body: PortableTextBlock
+  comments?: Comment[]
 }
 
 export interface Author {
@@ -24,9 +25,15 @@ export interface Author {
   bio: Record<string, unknown>[]
 }
 
-export type Slug = {
-  current: string
+export interface Comment {
+  _createdAt: string
+  _id: string
+  comment: string
+  name: string
+  email: string
 }
+
+export type Slug = string
 
 export type CommentFormValues = {
   _id: string

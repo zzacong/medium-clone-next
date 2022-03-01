@@ -1,11 +1,11 @@
 {
   "root": true,
   "project": {
-    "name": "medium-clone"
+    "name": ""
   },
   "api": {
-    "projectId": "afv90o8l",
-    "dataset": "production"
+    "projectId": "",
+    "dataset": ""
   },
   "plugins": [
     "@sanity/base",

@@ -7,5 +7,5 @@ https://medium-clone-nextjs.vercel.app
 
 ## Sanity CMS
 
-Sanity Studio: https://medium-clone-zz.sanity.studio
-Vercel: medium-clone-sanity-zz.vercel.app
+Sanity Studio: https://medium-clone-zz.sanity.studio  
+Vercel: https://medium-clone-sanity-zz.vercel.app  

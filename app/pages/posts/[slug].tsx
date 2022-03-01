@@ -21,9 +21,11 @@ export default function PostPage({ post: p }: Props) {
   const onComment = useCallback(async (data: CommentFormValues) => {
     console.table(data)
     try {
-      const res = await createPost(data)
+      await createPost(data)
+      alert('Comment created successfully')
     } catch (error) {
       console.error(error)
+      alert(error)
     }
   }, [])
 
@@ -142,7 +144,7 @@ export default function PostPage({ post: p }: Props) {
           </form>
         )}
 
-        {p.comments && (
+        {!!p.comments?.length && (
           <section className="my-10 flex flex-col rounded p-4 px-8 shadow">
             <h3 className="text-4xl">Comments</h3>
             <hr className="mx-auto my-2 w-full max-w-lg" />

@@ -1,6 +1,6 @@
-import { sanityConfig } from '$lib/config/sanity'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { type ClientConfig, createClient } from 'next-sanity'
+import { createClient } from 'next-sanity'
+import { sanityConfig } from '$lib/config/sanity'
 
 const sanityClient = createClient({
   ...sanityConfig,

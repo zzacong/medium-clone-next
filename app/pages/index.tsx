@@ -7,7 +7,7 @@ import Gallery from '$components/Gallery'
 import { sanityClient } from '$lib/config/sanity'
 import { GET_POSTS } from '$lib/query'
 
-export default function Home({ posts }: Props) {
+export default function Home({ posts }: PageProps) {
   return (
     <>
       <Header bg="yellow" />
@@ -17,11 +17,16 @@ export default function Home({ posts }: Props) {
   )
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getStaticProps: GetStaticProps<PageProps> = async () => {
   const posts = await sanityClient.fetch(GET_POSTS)
-  return { props: { posts } }
+  return {
+    props: {
+      posts,
+    },
+    revalidate: 10,
+  }
 }
 
-type Props = {
+type PageProps = {
   posts: Post[]
 }

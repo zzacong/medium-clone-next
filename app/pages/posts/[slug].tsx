@@ -173,7 +173,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 }
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   const post = await sanityClient.fetch<Post>(GET_POST, { slug: params?.slug })
   if (!post) return { notFound: true }
   return {

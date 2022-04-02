@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 export default function Avatar({ user, size, isLink = true }: Props) {
   return (
-    <span className="flex items-center justify-center rounded-full">
+    <span className="grid min-w-max place-items-center rounded-full">
       {isLink ? (
         <Link href="#" passHref>
           <a className="flex">

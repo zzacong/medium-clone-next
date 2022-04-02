@@ -22,13 +22,15 @@ export default function Gallery({ posts }: Props) {
                 />
               </div>
               <div className="flex justify-between bg-white p-4">
-                <div>
+                <div className="flex-grow pr-4">
                   <p className="text-lg font-medium">{p.title}</p>
-                  <p className="text-sm text-gray-700">
+                  <p className="max-w-[320px] truncate text-sm text-gray-700">
                     {p.description} by {p.author.name}
                   </p>
                 </div>
-                <Avatar user={p.author} size={48} isLink={false} />
+                <div>
+                  <Avatar user={p.author} size={48} isLink={false} />
+                </div>
               </div>
             </a>
           </Link>

@@ -8,6 +8,7 @@ export default defineType({
     defineField({
       name: 'title',
       title: 'Title',
+      description: 'Keep title short!',
       type: 'string',
     }),
     defineField({
@@ -18,6 +19,11 @@ export default defineType({
         source: 'title',
         maxLength: 96,
       },
+    }),
+    defineField({
+      name: 'description',
+      title: 'Description',
+      type: 'string',
     }),
     defineField({
       name: 'author',
@@ -59,7 +65,10 @@ export default defineType({
     },
     prepare(selection) {
       const {author} = selection
-      return {...selection, subtitle: author && `by ${author}`}
+      return {
+        ...selection,
+        subtitle: author && `by ${author}`,
+      }
     },
   },
 })

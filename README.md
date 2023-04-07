@@ -3,7 +3,7 @@ Let's build Medium 2.0 with NEXT.JS! (TypeScript, Sanity CMS, React, Tailwind CS
 
 ## Next.js app
 
-https://medium-clone-next.vercel.app
+https://medium-clone-nextjs.vercel.app
 
 ## Sanity CMS
 
